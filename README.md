@@ -11,4 +11,4 @@ Drivetrain: 2, 12<br/>
 Lift arms: 3, 13<br/>
 Body lift: 9, 14<br/>
 
-(This may be inaccurate because I don't update the readme)
+(This may be inaccurate because I don't update the readme, accurate port info is declared in source/robot-config.cpp)
