@@ -15,11 +15,11 @@ Body lift: 9, 14<br/>
 Toggle lift clamp: A<br/>
 Toggle conveyor belt: Y<br/>
 Drivetrain: LS<br/>
-Lift arms: L1/L2*<br/>
-Body lift: R1/R2*<br/>
+Lift arms: L1/L2†<br/>
+Body lift: R1/R2†<br/>
 
 (This may be inaccurate because I don't update the readme, accurate port info is declared in src/robot-config.cpp)
-*If the controls are reversed, swap the ports in which the motors are plugged in.
+†If the controls are reversed, swap the ports in which the motors are plugged in.
 
 ## Reporting software issues
 [Open a new issue](https://github.com/DairyProducts/TaskForceZulu/issues/new) if you find a problem that is strictly software related. 80% of problems are due to incorrect port configuration or driver error.
