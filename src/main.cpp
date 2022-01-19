@@ -39,7 +39,7 @@ void spinlift(){
     
   }
 }
-
+ 
 void lift(){
   lifter.setVelocity(100, percent);
   if (lifting == true){
