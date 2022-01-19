@@ -28,7 +28,7 @@ bool folded = false;
 
 void spinlift(){
   liftthing.stop();
-  liftthing.setVelocity(80, percent);
+  liftthing.setVelocity(60, percent);
   if (holding == false){
     liftthing.spin(forward);
     holding = true;
@@ -39,7 +39,7 @@ void spinlift(){
     
   }
 }
- 
+
 void lift(){
   lifter.setVelocity(100, percent);
   if (lifting == true){
@@ -88,7 +88,7 @@ void belttoggle() {
     belt.stop();
     beltIsSpinning = false;
   } else{
-    belt.setVelocity(70, percent);
+    belt.setVelocity(100, percent);
     belt.spin(reverse);
     beltIsSpinning = true;
   }
@@ -101,8 +101,8 @@ void movetoacceptrings() {
 
 int main() {
   vexcodeInit();
-  lifter.setVelocity(85, percent);
-  upperbodylift.setVelocity(100, percent);
+  lifter.setVelocity(42, percent);
+  upperbodylift.setVelocity(85, percent);
   Drivetrain.setDriveVelocity(100, percent);
   // auto
   Controller1.ButtonX.pressed(movetoacceptrings);
