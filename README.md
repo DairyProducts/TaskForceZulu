@@ -19,6 +19,7 @@ Lift arms: L1/L2†<br/>
 Body lift: R1/R2†<br/>
 
 (This may be inaccurate because I don't update the readme, accurate port info is declared in src/robot-config.cpp)
+
 †If the controls are reversed, swap the ports in which the motors are plugged in.
 
 ## Reporting software issues
