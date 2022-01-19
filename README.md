@@ -4,7 +4,8 @@ Tim's team!!!!!! We worship the divine deity Tim.
 ## To open in Vexcode Pro
 Use Ctrl + O and select the v5code file.
 
-## Motor ports
+## Configuration
+### Motor ports
 Lift clamp: 1<br/>
 Conveyor belt: 5<br/>
 Drivetrain: 2, 12<br/>
