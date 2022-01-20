@@ -9,17 +9,17 @@ brain  Brain;
 
 // VEXcode device constructors
 controller Controller1 = controller(primary);
-motor liftthing = motor(PORT1, ratio36_1, false);
+motor elev_hook = motor(PORT1, ratio36_1, false);
 motor belt = motor(PORT5, ratio18_1, false);
 motor LeftDriveSmart = motor(PORT2, ratio18_1, false);
 motor RightDriveSmart = motor(PORT12, ratio18_1, true);
 drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 355.59999999999997, 254, mm, 1);
-motor lifterMotorA = motor(PORT3, ratio18_1, true);
-motor lifterMotorB = motor(PORT13, ratio18_1, false);
-motor_group lifter = motor_group(lifterMotorA, lifterMotorB);
-motor upperbodyliftMotorA = motor(PORT9, ratio18_1, true);
-motor upperbodyliftMotorB = motor(PORT14, ratio18_1, false);
-motor_group upperbodylift = motor_group(upperbodyliftMotorA, upperbodyliftMotorB);
+motor armsMotorA = motor(PORT3, ratio18_1, true);
+motor armsMotorB = motor(PORT13, ratio18_1, false);
+motor_group arms = motor_group(armsMotorA, armsMotorB);
+motor elevatorMotorA = motor(PORT9, ratio18_1, true);
+motor elevatorMotorB = motor(PORT14, ratio18_1, false);
+motor_group elevator = motor_group(elevatorMotorA, elevatorMotorB);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
@@ -66,28 +66,28 @@ int rc_auto_loop_function_Controller1() {
         RightDriveSmart.setVelocity(drivetrainRightSideSpeed, percent);
         RightDriveSmart.spin(forward);
       }
-      // check the ButtonL1/ButtonL2 status to control lifter
+      // check the ButtonL1/ButtonL2 status to control arms
       while (Controller1.ButtonL1.pressing()) {
-        lifter.spin(forward);
+        arms.spin(forward);
         Controller1LeftShoulderControlMotorsStopped = false;
       } while (Controller1.ButtonL2.pressing()) {
-        lifter.spin(reverse);
+        arms.spin(reverse);
         Controller1LeftShoulderControlMotorsStopped = false;
       } while (!Controller1LeftShoulderControlMotorsStopped) {
-        lifter.spinFor(forward, 0.1, degrees);
-        // lifter.stop();
+        arms.spinFor(forward, 0.1, degrees);
+        // arms.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1LeftShoulderControlMotorsStopped = true;
       }
       while (Controller1.ButtonR1.pressing()) {
-        upperbodylift.spin(forward);
+        elevator.spin(forward);
         Controller1RightShoulderControlMotorsStopped = false;
       } while (Controller1.ButtonR2.pressing()) {
-        upperbodylift.spin(reverse);
+        elevator.spin(reverse);
         Controller1RightShoulderControlMotorsStopped = false;
       } while (!Controller1RightShoulderControlMotorsStopped) {
-        upperbodylift.spinFor(forward, 0.1, degrees);
-        // upperbodylift.stop();
+        elevator.spinFor(forward, 0.1, degrees);
+        // elevator.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1RightShoulderControlMotorsStopped = true;
       }
