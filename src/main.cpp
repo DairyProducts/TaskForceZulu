@@ -22,7 +22,7 @@
 /*
 Controller1: controller
 arms: lift arms on front of robot
-elevator: lifter for lifting goals onto lever
+elevator: lifter for lifting goals onto lever / upper body
 elev_hook: hook on elevator
 belt: donut processing treads
 */
@@ -55,7 +55,7 @@ void spinlift(){
  
 // toggle arms between positions based on lifting
 void lift(){
-  arms.setVelocity(100, percent);
+  arms.setVelocity(50, percent);
   if (lifting == true){
     arms.spinFor(forward, 350, degrees);
     lifting = false;
