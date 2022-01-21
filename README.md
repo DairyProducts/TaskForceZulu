@@ -22,6 +22,16 @@ Body lift: R1/R2†<br/>
 
 †If the controls are reversed, swap the ports in which the motors are plugged in.
 
+## Checklist
+* Check all wires. Connected wires will illuminate red in the connectors.
+* Check all controls. Make sure all controls work exactly as intended. See above.
+* Check structural security. Components prone to failure: conveyor belt, upper body lift, and elevator clamp.
+
+### Troubleshooting
+* Plug in all wires again. Make sure the connectors illuminate with red lights.
+* If the lifter controls are reversed, swap the ports in which they are connected.
+* Restart the program if something suddenly goes wrong (e.g. motors jam, speed abruptly changes).
+
 ## Reporting software issues
 [Open a new issue](https://github.com/DairyProducts/TaskForceZulu/issues/new) if you find a problem that is strictly software related. 80% of problems are due to incorrect port configuration or driver error.
 
