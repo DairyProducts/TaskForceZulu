@@ -14,8 +14,8 @@
 // elev_hook            motor         1   
 // belt                 motor         5             
 // Drivetrain           drivetrain    2, 12           
-// arms               motor_group   3, 13           
-// elevator        motor_group   9, 14           
+// arms                 motor_group   3, 13           
+// elevator             motor_group   9, 14           
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 
