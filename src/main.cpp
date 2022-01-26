@@ -152,9 +152,7 @@ int main() {
 
 
 
-
-
-// Note A: commented out code from line 137
+// Note A: commented out code from line 139
   // Controller1.ButtonL2.pressed(togl_ehook);
   /*while (!Controller1.ButtonL1.pressing() || !Controller1.ButtonL2.pressing() || 
   !Controller1.ButtonR1.pressing() || !Controller1.ButtonR2.pressing()){

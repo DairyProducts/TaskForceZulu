@@ -1,3 +1,7 @@
+#include "vex.h"
+
+using namespace vex;
+
 int Brain_precision = 0, Console_precision = 0, Vision5_objectIndex = 0;
 
 float myVariable;
