@@ -52,6 +52,8 @@ void togl_ehook(){
   }
   else{
     elev_hook.spin(reverse);
+    wait(0.4, seconds);
+    elev_hook.stop();
     ehook_on = false;
   }
 }
