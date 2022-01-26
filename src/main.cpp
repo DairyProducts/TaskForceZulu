@@ -129,8 +129,8 @@ void auton(){
 // main
 int main() {
   vexcodeInit();
-  arms.setVelocity(85, percent);
-  elevator.setVelocity(100, percent);
+  arms.setVelocity(40, percent);
+  elevator.setVelocity(85, percent);
   Drivetrain.setDriveVelocity(100, percent);
   // auto
   Controller1.ButtonX.pressed(align_arms);
