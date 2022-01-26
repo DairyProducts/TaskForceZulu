@@ -103,6 +103,7 @@ bool beltIsSpinning = false;
 
 // toggles belt between spinning fore or back based on beltIsSpinning
 void belttoggle() {
+  belt.setVelocity(100 , percent);
   if (beltIsSpinning){
     belt.stop();
     beltIsSpinning = false;
