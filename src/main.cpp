@@ -22,7 +22,7 @@
 /*
 Controller1: controller
 arms: lift arms on front of robot
-elevator: lifter for lifting goals onto lever / upper body
+elevator: lifter for arms_on goals onto lever
 elev_hook: hook on elevator
 belt: donut processing treads
 */
@@ -32,50 +32,82 @@ belt: donut processing treads
 
 using namespace vex;
 
-// holding: toggle variable for elev_hook
-bool holding = false;
-// lifting: toggle variable for arms and elevator, (possibly mistake)
-bool lifting = false;
-// folded: unused, (possibly mistake)
-bool folded = false;
+// ehook_on: toggle variable for elev_hook
+bool ehook_on = false;
+// arms_on: toggle variable for arms
+bool arms_on = false;
+// elev_on: toggle variable for elevator
+bool elev_on = false;
+//belt_on: toggle variable for belt
+bool belt_on = false;
 
-// toggle elev_hook between lock and unlock based on holding
-void spinlift(){
+
+// toggle elev_hook between lock and unlock based on ehook_on
+void togl_ehook(){
   elev_hook.stop();
   elev_hook.setVelocity(80, percent);
-  if (holding == false){
+  if (ehook_on == false){
     elev_hook.spin(forward);
-    holding = true;
+    ehook_on = true;
   }
   else{
     elev_hook.spin(reverse);
-    holding = false;
+    ehook_on = false;
   }
 }
  
-// toggle arms between positions based on lifting
-void lift(){
-  arms.setVelocity(50, percent);
-  if (lifting == true){
+// toggle arms between positions based on arms_on
+void togl_arms(){
+  arms.setVelocity(100, percent);
+  if (arms_on == true){
     arms.spinFor(forward, 350, degrees);
-    lifting = false;
+    arms_on = false;
   } else{
     arms.spinFor(reverse, 350, degrees);
-    lifting = true;
+    arms_on = true;
   }
 }
 
-// toggle elevator between unextended and extended positions based on lifting
-void foldbody(){
+// toggle elevator between unextended and extended positions based on arms_on
+void togl_elev(){
   elevator.setVelocity(100, percent);
-  if (lifting == true){
+  if (elev_on == true){
     elevator.spinFor(forward, 20, degrees);
-    lifting = false;
+    elev_on = false;
   } else{
     elevator.spinFor(reverse, 20, degrees);
-    lifting = true;
+    elev_on = true;
   }
 }
+
+// moves arms up when L1 is pressed
+int lift_arms() {
+  if (Controller1.ButtonL1.pressing()) {
+    arms.spin(forward);
+  }
+  return 0;
+}
+
+// toggles belt between spinning fore or back based on belt_on
+void togl_belt() {
+  if (belt_on){
+    belt.stop();
+    belt_on = false;
+  } else{
+    belt.setVelocity(70, percent);
+    belt.spin(reverse);
+    belt_on = true;
+  }
+
+}
+
+// spin arms to the perfect angle for the goal to receive the rings from the belt
+void align_arms() {
+  arms.spinFor(forward, 237.5, degrees);
+}
+
+
+
 
 // autonmous
 void auton(){
@@ -90,36 +122,6 @@ void auton(){
 
 }
 
-// moves arms up when L1 is pressed
-int armliftup() {
-  if (Controller1.ButtonL1.pressing()) {
-    arms.spin(forward);
-  }
-  return 0;
-}
-
-//beltIsSpinning: toggle variable for belt
-bool beltIsSpinning = false;
-
-// toggles belt between spinning fore or back based on beltIsSpinning
-void belttoggle() {
-  belt.setVelocity(100 , percent);
-  if (beltIsSpinning){
-    belt.stop();
-    beltIsSpinning = false;
-  } else{
-    belt.setVelocity(70, percent);
-    belt.spin(reverse);
-    beltIsSpinning = true;
-  }
-
-}
-
-// spin arms
-void movetoacceptrings() {
-  arms.spinFor(forward, 237.5, degrees);
-}
-
 // main
 int main() {
   vexcodeInit();
@@ -127,17 +129,17 @@ int main() {
   elevator.setVelocity(100, percent);
   Drivetrain.setDriveVelocity(100, percent);
   // auto
-  Controller1.ButtonX.pressed(movetoacceptrings);
-  Controller1.ButtonY.pressed(belttoggle);
+  Controller1.ButtonX.pressed(align_arms);
+  Controller1.ButtonY.pressed(togl_belt);
   // driver control
   
-  // Controller1.ButtonL2.pressed(spinlift);
+  // Controller1.ButtonL2.pressed(togl_ehook);
   /*while (!Controller1.ButtonL1.pressing() || !Controller1.ButtonL2.pressing() || 
   !Controller1.ButtonR1.pressing() || !Controller1.ButtonR2.pressing()){
     arms.stop();
   }*/
   // Controller1.ButtonL1.pressed(lift);
-  // armliftup();
+  // lift_arms();
   //if (Controller1.ButtonL2.pressing()){
   //  arms.spin(reverse);
   //}
@@ -148,8 +150,8 @@ int main() {
     elevator.spinFor(reverse, 400, degrees);
   }*/
 
-  Controller1.ButtonA.pressed(spinlift);
+  Controller1.ButtonA.pressed(togl_ehook);
   
-  // Controller1.ButtonR1.pressed(foldbody);
+  // Controller1.ButtonR1.pressed(togl_elev);
   
 }
