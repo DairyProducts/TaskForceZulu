@@ -68,6 +68,20 @@ void togl_arms(){
   }
 }
 
+// moves arms up when L1 is pressed
+int lift_arms() {
+  if (Controller1.ButtonL1.pressing()) {
+    arms.spin(forward);
+  }
+  return 0;
+}
+
+
+// spin arms to the perfect angle for the goal to receive the rings from the belt
+void align_arms() {
+  arms.spinFor(forward, 237.5, degrees);
+}
+
 // toggle elevator between unextended and extended positions based on arms_on
 void togl_elev(){
   elevator.setVelocity(100, percent);
@@ -78,14 +92,6 @@ void togl_elev(){
     elevator.spinFor(reverse, 20, degrees);
     elev_on = true;
   }
-}
-
-// moves arms up when L1 is pressed
-int lift_arms() {
-  if (Controller1.ButtonL1.pressing()) {
-    arms.spin(forward);
-  }
-  return 0;
 }
 
 // toggles belt between spinning fore or back based on belt_on
@@ -101,10 +107,6 @@ void togl_belt() {
 
 }
 
-// spin arms to the perfect angle for the goal to receive the rings from the belt
-void align_arms() {
-  arms.spinFor(forward, 237.5, degrees);
-}
 
 
 
@@ -132,7 +134,25 @@ int main() {
   Controller1.ButtonX.pressed(align_arms);
   Controller1.ButtonY.pressed(togl_belt);
   // driver control
+      // commented out code: see Note A on line 155
+
+  Controller1.ButtonA.pressed(togl_ehook);
   
+  // Controller1.ButtonR1.pressed(togl_elev);
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+// Note A: commented out code from line 137
   // Controller1.ButtonL2.pressed(togl_ehook);
   /*while (!Controller1.ButtonL1.pressing() || !Controller1.ButtonL2.pressing() || 
   !Controller1.ButtonR1.pressing() || !Controller1.ButtonR2.pressing()){
@@ -149,9 +169,3 @@ int main() {
   if (Controller1.ButtonR2.pressing()){
     elevator.spinFor(reverse, 400, degrees);
   }*/
-
-  Controller1.ButtonA.pressed(togl_ehook);
-  
-  // Controller1.ButtonR1.pressed(togl_elev);
-  
-}
