@@ -102,7 +102,7 @@ void togl_belt() {
     belt.stop();
     belt_on = false;
   } else{
-    belt.setVelocity(70, percent);
+    belt.setVelocity(100, percent);
     belt.spin(reverse);
     belt_on = true;
   }
