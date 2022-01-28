@@ -4,9 +4,6 @@ using namespace vex;
 
 int Brain_precision = 0, Console_precision = 0, Vision5_objectIndex = 0;
 
-float myVariable;
-
-event message1 = event();
 event JoesVizion = event();
 
 // "when I receive JoesVizion" hat block
