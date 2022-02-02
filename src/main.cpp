@@ -15,9 +15,9 @@
 // belt                 motor         5             
 // Drivetrain           drivetrain    2, 12           
 // arms                 motor_group   3, 13           
-// elevator             motor_group   9, 14           
+// elevator             motor_group   9, 14 
+// Vision5              vision        20          
 // ---- END VEXCODE CONFIGURED DEVICES ----
-
 
 /*
 Controller1: controller
@@ -29,8 +29,13 @@ belt: donut processing treads
 
 
 #include "vex.h"
-
 using namespace vex;
+using signature = vision::signature;
+using code = vision::code;
+int Brain_precision = 0, Console_precision = 0, Vision5_objectIndex = 0;
+vision::signature Vision5__REDD = vision::signature (1, 6387, 8119, 7252,-1093, -425, -760,3, 0);
+vision Vision5 = vision (PORT20, 40, Vision5__REDD);
+event JoesVizion = event();
 
 // ehook_on: toggle variable for elev_hook
 bool ehook_on = false;
@@ -40,7 +45,51 @@ bool arms_on = false;
 bool elev_on = false;
 //belt_on: toggle variable for belt
 bool belt_on = false;
-
+int whenStarted() {
+  JoesVizion.broadcast();
+  return 0;
+}
+void onevent_JoesVizion_0() {
+  whenStarted();
+  Vision5.takeSnapshot(Vision5__REDD);
+  arms.spinFor(forward, 740.0, degrees, true);
+  Drivetrain.driveFor(reverse, 10.0, inches, true);
+  Drivetrain.setTurnVelocity(10.0, percent);
+  while (!(Vision5.objects[Vision5_objectIndex].width > 240.0 || Vision5.objects[Vision5_objectIndex].centerY > 180.0)) {
+    Brain.Screen.clearScreen();
+    Brain.Screen.setCursor(1, 1);
+    Vision5.takeSnapshot(Vision5__REDD);
+    if (Vision5.objectCount > 0) {
+      if (Vision5.objects[Vision5_objectIndex].centerX > 130.0 && Vision5.objects[Vision5_objectIndex].centerX < 170.0) {
+        Brain.Screen.print("forward");
+        Drivetrain.driveFor(reverse, 2.0, inches, true);
+      }
+      else {
+        if (Vision5.objects[Vision5_objectIndex].centerX > 130.0) {
+          Drivetrain.turn(left);
+          Brain.Screen.print("right");
+        }
+        else {
+          if (Vision5.objects[Vision5_objectIndex].centerX < 170.0) {
+            Drivetrain.turn(right);
+            Brain.Screen.print("left");
+          }
+        }
+      }
+    }
+    else {
+      Drivetrain.turn(left);
+      Brain.Screen.print("right circle");
+    }
+    wait(0.1, seconds);
+    Vision5.takeSnapshot(Vision5__REDD);
+  wait(5, msec);
+  }
+  Brain.Screen.print("go forward till goal");
+  Drivetrain.setTurnVelocity(0.0, percent);
+  Drivetrain.driveFor(reverse, 20.0, inches, true);
+  arms.spinFor(reverse, 300.0, degrees, true);
+}
 
 // toggle elev_hook between lock and unlock based on ehook_on
 void togl_ehook(){
@@ -57,7 +106,9 @@ void togl_ehook(){
     ehook_on = false;
   }
 }
- 
+
+
+
 // toggle arms between positions based on arms_on
 void togl_arms(){
   arms.setVelocity(100, percent);
@@ -111,8 +162,6 @@ void togl_belt() {
 
 
 
-
-
 // autonmous
 void auton(){
   Drivetrain.setDriveVelocity(100, percent);
@@ -135,6 +184,7 @@ int main() {
   // auto
   Controller1.ButtonX.pressed(align_arms);
   Controller1.ButtonY.pressed(togl_belt);
+  Controller1.ButtonB.pressed(onevent_JoesVizion_0);
   // driver control
       // commented out code: see Note A on line 155
 

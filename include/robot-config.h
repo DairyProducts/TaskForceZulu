@@ -9,6 +9,7 @@ extern motor belt;
 extern drivetrain Drivetrain;
 extern motor_group arms;
 extern motor_group elevator;
+extern vision Vision5;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

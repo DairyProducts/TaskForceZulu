@@ -20,6 +20,8 @@ motor_group arms = motor_group(armsMotorA, armsMotorB);
 motor elevatorMotorA = motor(PORT9, ratio18_1, true);
 motor elevatorMotorB = motor(PORT14, ratio18_1, false);
 motor_group elevator = motor_group(elevatorMotorA, elevatorMotorB);
+// vision::signature Vision5__REDD = vision::signature (1, 6387, 8119, 7252,-1093, -425, -760,3, 0);
+// vision Vision5 = vision (PORT20, 40, Vision5__REDD);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
