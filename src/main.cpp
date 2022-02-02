@@ -81,7 +81,7 @@ int lift_arms() {
 
 // spin arms to the perfect angle for the goal to receive the rings from the belt
 void align_arms() {
-  arms.spinFor(forward, 237.5, degrees);
+  arms.spinFor(reverse, 237.5, degrees);
 }
 
 // toggle elevator between unextended and extended positions based on arms_on
@@ -143,13 +143,6 @@ int main() {
   // Controller1.ButtonR1.pressed(togl_elev);
   
 }
-
-
-
-
-
-
-
 
 
 // Note A: commented out code from line 139
