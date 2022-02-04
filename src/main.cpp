@@ -33,7 +33,7 @@ using namespace vex;
 using signature = vision::signature;
 using code = vision::code;
 int Brain_precision = 0, Console_precision = 0, Vision5_objectIndex = 0;
-vision::signature Vision5__REDD = vision::signature (1, 6387, 8119, 7252,-1093, -425, -760,3, 0);
+vision::signature Vision5__REDD = vision::signature (1, 1357, 1639, 1498,-3479, -3123, -3300,2.5, 0);
 vision Vision5 = vision (PORT20, 40, Vision5__REDD);
 event JoesVizion = event();
 
@@ -55,14 +55,15 @@ void onevent_JoesVizion_0() {
   arms.spinFor(forward, 740.0, degrees, true);
   Drivetrain.driveFor(reverse, 10.0, inches, true);
   Drivetrain.setTurnVelocity(10.0, percent);
-  while (!(Vision5.objects[Vision5_objectIndex].width > 240.0 || Vision5.objects[Vision5_objectIndex].centerY > 180.0)) {
+  Drivetrain.setDriveVelocity(30, percent);
+  while (!(Vision5.objects[Vision5_objectIndex].width > 240.0 || Vision5.objects[Vision5_objectIndex].centerY > 165.0)) {
     Brain.Screen.clearScreen();
     Brain.Screen.setCursor(1, 1);
     Vision5.takeSnapshot(Vision5__REDD);
     if (Vision5.objectCount > 0) {
-      if (Vision5.objects[Vision5_objectIndex].centerX > 130.0 && Vision5.objects[Vision5_objectIndex].centerX < 170.0) {
+      if (Vision5.objects[Vision5_objectIndex].centerX > 230.0 && Vision5.objects[Vision5_objectIndex].centerX < 160.0) {
         Brain.Screen.print("forward");
-        Drivetrain.driveFor(reverse, 2.0, inches, true);
+        Drivetrain.driveFor(reverse, 5.0, inches, true);
       }
       else {
         if (Vision5.objects[Vision5_objectIndex].centerX > 130.0) {
@@ -70,7 +71,7 @@ void onevent_JoesVizion_0() {
           Brain.Screen.print("right");
         }
         else {
-          if (Vision5.objects[Vision5_objectIndex].centerX < 170.0) {
+          if (Vision5.objects[Vision5_objectIndex].centerX < 160.0) {
             Drivetrain.turn(right);
             Brain.Screen.print("left");
           }
