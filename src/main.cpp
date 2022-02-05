@@ -33,7 +33,7 @@ using namespace vex;
 using signature = vision::signature;
 using code = vision::code;
 int Brain_precision = 0, Console_precision = 0, Vision5_objectIndex = 0;
-vision::signature Vision5__REDD = vision::signature (1, 1357, 1639, 1498,-3479, -3123, -3300,2.5, 0);
+vision::signature Vision5__REDD = vision::signature (1, 1955, 2269, 2112,-3453, -3027, -3240,3, 0);
 vision Vision5 = vision (PORT20, 40, Vision5__REDD);
 event JoesVizion = event();
 
@@ -50,53 +50,42 @@ int whenStarted() {
   JoesVizion.broadcast();
   return 0;
 }
-void onevent_JoesVizion_0() { // when vision stuff called
-  whenStarted();
-  float objX;
-  float objY;
-  float objW;
-
-  Vision5.takeSnapshot(Vision5__REDD); //snapshot
-  objX = Vision5.objects[Vision5_objectIndex].centerX; objY = Vision5.objects[Vision5_objectIndex].centerY; objW = Vision5.objects[Vision5_objectIndex].width;
+void onevent_JoesVizion_0() {
+  Vision5.takeSnapshot(Vision5__REDD);
   arms.spinFor(forward, 740.0, degrees, true);
   Drivetrain.driveFor(reverse, 10.0, inches, true);
   Drivetrain.setTurnVelocity(10.0, percent);
-  Drivetrain.setDriveVelocity(30, percent);
-
-  // while the goal is not already reached
-  while (!(objW > 240.0 || objY > 165.0)) { 
+  while (!(Vision5.objects[Vision5_objectIndex].width > 240.0 || Vision5.objects[Vision5_objectIndex].centerY > 180.0)) {
     Brain.Screen.clearScreen();
     Brain.Screen.setCursor(1, 1);
     Vision5.takeSnapshot(Vision5__REDD);
-    objX = Vision5.objects[Vision5_objectIndex].centerX; objY = Vision5.objects[Vision5_objectIndex].centerY; objW = Vision5.objects[Vision5_objectIndex].width;
-
-    if (Vision5.objectCount > 0) { // if there is an object
-      if (objX > 130.0 && objX < 160.0) { // if object is within 130 and 160
+    if (Vision5.objectCount > 0) {
+      if (Vision5.objects[Vision5_objectIndex].centerX > 130.0 && Vision5.objects[Vision5_objectIndex].centerX < 170.0) {
         Brain.Screen.print("forward");
-        Drivetrain.driveFor(reverse, 5.0, inches, true);
+        Drivetrain.driveFor(reverse, 2.0, inches, true);
       }
-      else if (objX >= 160.0) { // if object is to the right of 170
-        // note: actually turns right
-        Drivetrain.turn(left);
-        Brain.Screen.print("right");
-      }
-      else if (objX <= 130.0) { // if object is to the left of 130
-        // note: actually turns left
-        Drivetrain.turn(right);
-        Brain.Screen.print("left");
+      else {
+        if (Vision5.objects[Vision5_objectIndex].centerX > 130.0) {
+          Drivetrain.turn(left);
+          Brain.Screen.print("right");
+        }
+        else {
+          if (Vision5.objects[Vision5_objectIndex].centerX < 170.0) {
+            Drivetrain.turn(right);
+            Brain.Screen.print("left");
+          }
+        }
       }
     }
-    else { // if there is no object
-      Drivetrain.turn(left); // find goal
+    else {
+      Drivetrain.turn(left);
       Brain.Screen.print("right circle");
     }
-
-    wait(100, msec);
-    //Vision5.takeSnapshot(Vision5__REDD); // unnecesary snapshot?
-    wait(5, msec);
+    wait(0.1, seconds);
+    Vision5.takeSnapshot(Vision5__REDD);
+  wait(5, msec);
   }
-
-  Brain.Screen.print("go forward till goal"); // move to pick up goal
+  Brain.Screen.print("go forward till goal");
   Drivetrain.setTurnVelocity(0.0, percent);
   Drivetrain.driveFor(reverse, 20.0, inches, true);
   arms.spinFor(reverse, 300.0, degrees, true);
