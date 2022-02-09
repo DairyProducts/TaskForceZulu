@@ -159,8 +159,32 @@ void auton(){
   togl_ehook();
   wait(0.3, seconds);
   Drivetrain.setDriveVelocity(100, percent);
-  Drivetrain.driveFor(reverse, 40, inches);
+  Drivetrain.driveFor(reverse, 15, inches);
+  togl_ehook();
+  Drivetrain.turnFor(right, 80, degrees);
+  Drivetrain.driveFor(reverse, 24, inches);
+  Drivetrain.turnFor(left, 80, degrees);
+  Drivetrain.driveFor(forward, 15, inches);
+  wait(0.3, seconds);
+  togl_ehook();
+  wait(0.3, seconds);
+  Drivetrain.driveFor(reverse, 25, inches);
 
+}
+
+void controllerinfo(){
+  Controller1.Screen.clearScreen();
+  Controller1.Screen.setCursor(0, 0);
+  if(ehook_on){
+    Controller1.Screen.print("HOOK LOCKED");
+  } else{
+    Controller1.Screen.print("HOOK UNLOCKED");
+  }
+  Controller1.Screen.newLine();
+  if(arms.temperature(percent) >= 70 || elevator.temperature(percent) >= 70
+  || elev_hook.temperature(percent) >= 70 || Drivetrain.temperature(percent) >= 70){
+    Controller1.Screen.print("OVERHEAT WARN");
+  }
 }
 
 // A global instance of competition
@@ -219,7 +243,9 @@ void autonomous(void) {
 
 void drivercontrol(void) {
   // User control code here, inside the loop
+  Drivetrain.setDriveVelocity(100, percent);
   while (1) {
+    
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
     // values based on feedback from the joysticks.
@@ -231,8 +257,20 @@ void drivercontrol(void) {
     Controller1.ButtonX.pressed(togl_arms);
     Controller1.ButtonY.pressed(togl_belt);
     Controller1.ButtonA.pressed(togl_ehook);
-    Controller1.ButtonUp.pressed(speedup);
-    Controller1.ButtonDown.pressed(speeddown);
+    if(arms.temperature(percent) >= 70 || elevator.temperature(percent) >= 70
+  || elev_hook.temperature(percent) >= 70 || Drivetrain.temperature(percent) >= 70) >= 70){
+      Brain.Screen.clearLine();
+      Brain.Screen.setFont(vex::fontType::mono40);
+      Brain.Screen.print("OVERHEAT WARN");
+      Brain.Screen.setFillColor(red);
+      
+      
+    } else{
+      Brain.Screen.clearLine();
+    }
+    controllerinfo();
+    //Controller1.ButtonUp.pressed(speedup);
+    //Controller1.ButtonDown.pressed(speeddown);
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
@@ -245,10 +283,10 @@ int main() {
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(drivercontrol);
+  
 
   // Run the pre-autonomous function.
   pre_auton();
-
   // Prevent main from exiting with an infinite loop.
   while (true) {
     wait(100, msec);
