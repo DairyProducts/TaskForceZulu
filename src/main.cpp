@@ -36,6 +36,7 @@ bool arms_on = false;
 bool elev_on = false;
 //belt_on: toggle variable for belt
 bool belt_on = false;
+double maxtemp = 70.0;
 int whenStarted() {
   JoesVizion.broadcast();
   return 0;
@@ -181,8 +182,8 @@ void controllerinfo(){
     Controller1.Screen.print("HOOK UNLOCKED");
   }
   Controller1.Screen.newLine();
-  if(arms.temperature(percent) >= 70 || elevator.temperature(percent) >= 70
-  || elev_hook.temperature(percent) >= 70 || Drivetrain.temperature(percent) >= 70){
+  if(arms.temperature(percent) >= maxtemp || elevator.temperature(percent) >= maxtemp
+  || elev_hook.temperature(percent) >= maxtemp || Drivetrain.temperature(percent) >= maxtemp){
     Controller1.Screen.print("OVERHEAT WARN");
   }
 }
@@ -257,8 +258,8 @@ void drivercontrol(void) {
     Controller1.ButtonX.pressed(togl_arms);
     Controller1.ButtonY.pressed(togl_belt);
     Controller1.ButtonA.pressed(togl_ehook);
-    if(arms.temperature(percent) >= 70 || elevator.temperature(percent) >= 70
-  || elev_hook.temperature(percent) >= 70 || Drivetrain.temperature(percent) >= 70) >= 70){
+    if(arms.temperature(percent) >= maxtemp || elevator.temperature(percent) >= maxtemp
+  || elev_hook.temperature(percent) >= maxtemp || Drivetrain.temperature(percent) >= maxtemp){
       Brain.Screen.clearLine();
       Brain.Screen.setFont(vex::fontType::mono40);
       Brain.Screen.print("OVERHEAT WARN");
