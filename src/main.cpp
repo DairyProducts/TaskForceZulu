@@ -20,6 +20,8 @@
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
+#include <string>
+#include <sstream>
 
 using namespace vex;
 using signature = vision::signature;
@@ -177,9 +179,9 @@ void controllerinfo(){
   Controller1.Screen.clearScreen();
   Controller1.Screen.setCursor(0, 0);
   if(ehook_on){
-    Controller1.Screen.print("HOOK LOCKED");
+    Controller1.Screen.print("Hook LOCKED");
   } else{
-    Controller1.Screen.print("HOOK UNLOCKED");
+    Controller1.Screen.print("Hook UNLOCKED");
   }
   Controller1.Screen.newLine();
   if(arms.temperature(percent) >= maxtemp || elevator.temperature(percent) >= maxtemp
@@ -187,6 +189,60 @@ void controllerinfo(){
     Controller1.Screen.print("OVERHEAT WARN");
   }
 }
+std::stringstream s;
+void braininfo(){
+  s.clear();
+  s.str();
+  Brain.Screen.clearScreen();
+  Brain.Screen.setFont(vex::fontType::mono30);
+  Brain.Screen.setCursor(0, 0);
+  s << "test: " << 5.0;
+  if(arms.temperature(percent) >= maxtemp){
+    Brain.Screen.print("ARMS OVERHEAT WARN");
+    Brain.Screen.setFillColor(red);
+  } else if(arms.temperature(percent) < maxtemp && 
+  arms.temperature(percent) > maxtemp - 15){
+    Brain.Screen.print("ARMS CHECK TEMP");
+    Brain.Screen.setFillColor(yellow);
+  } else{
+    Brain.Screen.print("ARMS TEMP OK");
+    Brain.Screen.setFillColor(blue);
+  }
+  if(Drivetrain.temperature(percent) >= maxtemp){
+    Brain.Screen.print("DT OVERHEAT WARN");
+    Brain.Screen.setFillColor(red);
+  } else if(Drivetrain.temperature(percent) < maxtemp
+   && Drivetrain.temperature(percent) > maxtemp - 15){
+    Brain.Screen.print("DT CHECK TEMP");
+    Brain.Screen.setFillColor(yellow);
+  } else{
+    Brain.Screen.print("DT TEMP OK");
+    Brain.Screen.setFillColor(blue);
+  }
+  if(elevator.temperature(percent) >= maxtemp){
+    Brain.Screen.print("ELEV OVERHEAT WARN");
+    Brain.Screen.setFillColor(red);
+  } else if(elevator.temperature(percent) < maxtemp && 
+  elevator.temperature(percent) > maxtemp - 15){
+    Brain.Screen.print("ELEV CHECK TEMP");
+    Brain.Screen.setFillColor(yellow);
+  } else{
+    Brain.Screen.print("ELEV TEMP OK");
+    Brain.Screen.setFillColor(blue);
+  }
+  if(elev_hook.temperature(percent) >= maxtemp){
+    Brain.Screen.print("CLAMP OVERHEAT WARN");
+    Brain.Screen.setFillColor(red);
+  } else if(elev_hook.temperature(percent) < maxtemp && 
+  elev_hook.temperature(percent) > maxtemp - 15){
+    Brain.Screen.print("CLAMP CHECK TEMP");
+    Brain.Screen.setFillColor(yellow);
+  } else{
+    Brain.Screen.print("CLAMP TEMP OK");
+    Brain.Screen.setFillColor(blue);
+  }
+}
+
 
 // A global instance of competition
 competition Competition;
@@ -258,17 +314,7 @@ void drivercontrol(void) {
     Controller1.ButtonX.pressed(togl_arms);
     Controller1.ButtonY.pressed(togl_belt);
     Controller1.ButtonA.pressed(togl_ehook);
-    if(arms.temperature(percent) >= maxtemp || elevator.temperature(percent) >= maxtemp
-  || elev_hook.temperature(percent) >= maxtemp || Drivetrain.temperature(percent) >= maxtemp){
-      Brain.Screen.clearLine();
-      Brain.Screen.setFont(vex::fontType::mono40);
-      Brain.Screen.print("OVERHEAT WARN");
-      Brain.Screen.setFillColor(red);
-      
-      
-    } else{
-      Brain.Screen.clearLine();
-    }
+    braininfo();
     controllerinfo();
     //Controller1.ButtonUp.pressed(speedup);
     //Controller1.ButtonDown.pressed(speeddown);
@@ -293,3 +339,4 @@ int main() {
     wait(100, msec);
   }
 }
+
