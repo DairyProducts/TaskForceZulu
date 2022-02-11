@@ -38,7 +38,7 @@ bool arms_on = false;
 bool elev_on = false;
 //belt_on: toggle variable for belt
 bool belt_on = false;
-double maxtemp = 65.0;
+double maxtemp = 75.0;
 int whenStarted() {
   JoesVizion.broadcast();
   return 0;
@@ -80,8 +80,9 @@ void togl_ehook(){
   elev_hook.stop();
   elev_hook.setVelocity(80, percent);
   if (ehook_on == false){
+    elev_hook.spin(forward);
     ehook_on = true;
-    elev_hook.spinFor(300, degrees);
+    //elev_hook.spinFor(300, degrees);
     
   }
   else{
@@ -202,14 +203,20 @@ void braininfo(){
   if(arms.temperature(percent) >= maxtemp){
     Brain.Screen.setFillColor(red);
     Brain.Screen.print("ARMS OVERHEAT WARN");
+    Brain.Screen.print(arms.temperature(percent));
+    Brain.Screen.print("%");
   } else if(arms.temperature(percent) < maxtemp
    && arms.temperature(percent) > maxtemp - 15){
     Brain.Screen.setFillColor(orange);
     Brain.Screen.print("ARMS CHECK TEMP");
+    Brain.Screen.print(arms.temperature(percent));
+    Brain.Screen.print("%");
     
   } else{
     Brain.Screen.setFillColor(blue);
     Brain.Screen.print("ARMS TEMP OK");
+    Brain.Screen.print(arms.temperature(percent));
+    Brain.Screen.print("%");
     // Brain.Screen.print(t);
     
   }
@@ -217,26 +224,38 @@ void braininfo(){
   if(Drivetrain.temperature(percent) >= maxtemp){
     Brain.Screen.setFillColor(red);
     Brain.Screen.print("DT OVERHEAT WARN");
+    Brain.Screen.print(Drivetrain.temperature(percent));
+    Brain.Screen.print("%");
   } else if(Drivetrain.temperature(percent) < maxtemp
    && Drivetrain.temperature(percent) > maxtemp - 15){
      Brain.Screen.setFillColor(orange);
     Brain.Screen.print("DT CHECK TEMP");
+    Brain.Screen.print(Drivetrain.temperature(percent));
+    Brain.Screen.print("%");
   } else{
     Brain.Screen.setFillColor(blue);
     Brain.Screen.print("DT TEMP OK");
+    Brain.Screen.print(Drivetrain.temperature(percent));
+    Brain.Screen.print("%");
   }
   //const char *c = s.c_str();
   Brain.Screen.newLine();
   if(elevator.temperature(percent) >= maxtemp){
     Brain.Screen.setFillColor(red);
     Brain.Screen.print("ELEV OVERHEAT WARN");
+    Brain.Screen.print(elevator.temperature(percent));
+    Brain.Screen.print("%");
   } else if(elevator.temperature(percent) < maxtemp && 
   elevator.temperature(percent) > maxtemp - 15){
     Brain.Screen.setFillColor(orange);
     Brain.Screen.print("ELEV CHECK TEMP");
+    Brain.Screen.print(elevator.temperature(percent));
+    Brain.Screen.print("%");
   } else{
     Brain.Screen.setFillColor(blue);
     Brain.Screen.print("ELEV TEMP OK");
+    Brain.Screen.print(elevator.temperature(percent));
+    Brain.Screen.print("%");
   }
   Brain.Screen.newLine();
   if(elev_hook.temperature(percent) >= maxtemp){
@@ -248,10 +267,14 @@ void braininfo(){
   } else if(elev_hook.temperature(percent) < maxtemp && 
   elev_hook.temperature(percent) > maxtemp - 15){
     Brain.Screen.setFillColor(orange);
-    Brain.Screen.print("CLAMP CHECK TEMP");
+    Brain.Screen.print("CLAMP CHECK TEMP - ");
+    Brain.Screen.print(elev_hook.temperature(percent));
+    Brain.Screen.print("%");
   } else{
     Brain.Screen.setFillColor(blue);
-    Brain.Screen.print("CLAMP TEMP OK");
+    Brain.Screen.print("CLAMP TEMP OK - ");
+    Brain.Screen.print(elev_hook.temperature(percent));
+    Brain.Screen.print("%");
   }
   Brain.Screen.newLine();
 }
