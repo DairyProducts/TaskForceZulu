@@ -30,6 +30,24 @@ bool RemoteControlCodeEnabled = true;
 bool Controller1LeftShoulderControlMotorsStopped = true;
 bool Controller1RightShoulderControlMotorsStopped = true;
 bool DrivetrainNeedsToBeStopped_Controller1 = true;
+//bool ehook_on = false;
+/*void togl_ehook(){
+  elev_hook.stop();
+  elev_hook.setVelocity(80, percent);
+  if (ehook_on == false){
+    elev_hook.spin(forward);
+    ehook_on = true;
+    //elev_hook.spinFor(300, degrees);
+    
+  }
+  else{
+    ehook_on = false;
+    elev_hook.spin(reverse);
+    wait(2, seconds);
+    elev_hook.stop();
+    
+  }
+}*/
 
 // define a task that will handle monitoring inputs from Controller1
 int rc_auto_loop_function_Controller1() {
@@ -93,7 +111,9 @@ int rc_auto_loop_function_Controller1() {
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1RightShoulderControlMotorsStopped = true;
       }
+      
     }
+    //Controller1.ButtonA.pressed(togl_ehook);
     // wait before repeating the process
     wait(20, msec);
   }

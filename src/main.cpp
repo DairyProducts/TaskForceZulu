@@ -80,15 +80,20 @@ void togl_ehook(){
   elev_hook.stop();
   elev_hook.setVelocity(80, percent);
   if (ehook_on == false){
-    elev_hook.spin(forward);
     ehook_on = true;
-    //elev_hook.spinFor(300, degrees);
+    elev_hook.spinToPosition(150, degrees);
+    elev_hook.spinFor(forward, 0.001, degrees);
+    //elev_hook.setStopping(hold);
+    //elev_hook.stop();
+    //elev_hook.spin(forward);
     
   }
   else{
-    elev_hook.spin(reverse);
     ehook_on = false;
-    
+    elev_hook.spinToPosition(30, degrees);
+    //elev_hook.setStopping(coast);
+    elev_hook.stop();
+    //elev_hook.spin(reverse);
   }
 }
 
@@ -202,20 +207,41 @@ void braininfo(){
   Brain.Screen.newLine();
   if(arms.temperature(percent) >= maxtemp){
     Brain.Screen.setFillColor(red);
-    Brain.Screen.print("ARMS OVERHEAT WARN");
+    Brain.Screen.print("ARMS OVERHEAT WARN - ");
     Brain.Screen.print(arms.temperature(percent));
     Brain.Screen.print("%");
   } else if(arms.temperature(percent) < maxtemp
    && arms.temperature(percent) > maxtemp - 15){
     Brain.Screen.setFillColor(orange);
-    Brain.Screen.print("ARMS CHECK TEMP");
+    Brain.Screen.print("ARMS CHECK TEMP - ");
     Brain.Screen.print(arms.temperature(percent));
     Brain.Screen.print("%");
     
   } else{
     Brain.Screen.setFillColor(blue);
-    Brain.Screen.print("ARMS TEMP OK");
+    Brain.Screen.print("ARMS TEMP OK - ");
     Brain.Screen.print(arms.temperature(percent));
+    Brain.Screen.print("%");
+    // Brain.Screen.print(t);
+    
+  }
+  Brain.Screen.newLine();
+  if(elevator.temperature(percent) >= maxtemp){
+    Brain.Screen.setFillColor(red);
+    Brain.Screen.print("ELEVATOR OVERHEAT WARN - ");
+    Brain.Screen.print(elevator.temperature(percent));
+    Brain.Screen.print("%");
+  } else if(elevator.temperature(percent) < maxtemp
+   && elevator.temperature(percent) > maxtemp - 15){
+    Brain.Screen.setFillColor(orange);
+    Brain.Screen.print("ELEVATOR CHECK TEMP - ");
+    Brain.Screen.print(elevator.temperature(percent));
+    Brain.Screen.print("%");
+    
+  } else{
+    Brain.Screen.setFillColor(blue);
+    Brain.Screen.print("ELEVATOR TEMP OK - ");
+    Brain.Screen.print(elevator.temperature(percent));
     Brain.Screen.print("%");
     // Brain.Screen.print(t);
     
@@ -223,18 +249,18 @@ void braininfo(){
   Brain.Screen.newLine();
   if(Drivetrain.temperature(percent) >= maxtemp){
     Brain.Screen.setFillColor(red);
-    Brain.Screen.print("DT OVERHEAT WARN");
+    Brain.Screen.print("DT OVERHEAT WARN - ");
     Brain.Screen.print(Drivetrain.temperature(percent));
     Brain.Screen.print("%");
   } else if(Drivetrain.temperature(percent) < maxtemp
    && Drivetrain.temperature(percent) > maxtemp - 15){
      Brain.Screen.setFillColor(orange);
-    Brain.Screen.print("DT CHECK TEMP");
+    Brain.Screen.print("DT CHECK TEMP - ");
     Brain.Screen.print(Drivetrain.temperature(percent));
     Brain.Screen.print("%");
   } else{
     Brain.Screen.setFillColor(blue);
-    Brain.Screen.print("DT TEMP OK");
+    Brain.Screen.print("DT TEMP OK - ");
     Brain.Screen.print(Drivetrain.temperature(percent));
     Brain.Screen.print("%");
   }
@@ -242,18 +268,18 @@ void braininfo(){
   Brain.Screen.newLine();
   if(elevator.temperature(percent) >= maxtemp){
     Brain.Screen.setFillColor(red);
-    Brain.Screen.print("ELEV OVERHEAT WARN");
+    Brain.Screen.print("ELEV OVERHEAT WARN - ");
     Brain.Screen.print(elevator.temperature(percent));
     Brain.Screen.print("%");
   } else if(elevator.temperature(percent) < maxtemp && 
   elevator.temperature(percent) > maxtemp - 15){
     Brain.Screen.setFillColor(orange);
-    Brain.Screen.print("ELEV CHECK TEMP");
+    Brain.Screen.print("ELEV CHECK TEMP - ");
     Brain.Screen.print(elevator.temperature(percent));
     Brain.Screen.print("%");
   } else{
     Brain.Screen.setFillColor(blue);
-    Brain.Screen.print("ELEV TEMP OK");
+    Brain.Screen.print("ELEV TEMP OK - ");
     Brain.Screen.print(elevator.temperature(percent));
     Brain.Screen.print("%");
   }
@@ -337,6 +363,7 @@ void autonomous(void) {
 void drivercontrol(void) {
   // User control code here, inside the loop
   Drivetrain.setDriveVelocity(100, percent);
+  elev_hook.setPosition(0, degrees);
   while (1) {
     
     // This is the main execution loop for the user control program.
