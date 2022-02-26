@@ -11,9 +11,19 @@ brain  Brain;
 controller Controller1 = controller(primary);
 motor elev_hook = motor(PORT1, ratio36_1, false);
 motor belt = motor(PORT5, ratio18_1, false);
-motor LeftDriveSmart = motor(PORT2, ratio18_1, false);
+// TWO 2 motor drivetrain code
+/*motor LeftDriveSmart = motor(PORT2, ratio18_1, false);
 motor RightDriveSmart = motor(PORT12, ratio18_1, true);
+drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 355.59999999999997, 254, mm, 1);*/
+// FOUR 4 motor drivetrain code
+motor motorLeftFront = motor(PORT20, ratio18_1, true);
+motor motorLeftBack = motor(PORT2, ratio18_1, false);
+motor motorRightFront = motor(PORT5, ratio18_1, false);
+motor motorRightBack = motor(PORT12, ratio18_1, true);
+motor_group LeftDriveSmart = motor_group(motorLeftFront, motorLeftBack);
+motor_group RightDriveSmart = motor_group(motorRightFront, motorRightBack);
 drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 355.59999999999997, 254, mm, 1);
+//old code don't delete
 motor armsMotorA = motor(PORT3, ratio18_1, true);
 motor armsMotorB = motor(PORT13, ratio18_1, false);
 motor_group arms = motor_group(armsMotorA, armsMotorB);
@@ -30,24 +40,6 @@ bool RemoteControlCodeEnabled = true;
 bool Controller1LeftShoulderControlMotorsStopped = true;
 bool Controller1RightShoulderControlMotorsStopped = true;
 bool DrivetrainNeedsToBeStopped_Controller1 = true;
-//bool ehook_on = false;
-/*void togl_ehook(){
-  elev_hook.stop();
-  elev_hook.setVelocity(80, percent);
-  if (ehook_on == false){
-    elev_hook.spin(forward);
-    ehook_on = true;
-    //elev_hook.spinFor(300, degrees);
-    
-  }
-  else{
-    ehook_on = false;
-    elev_hook.spin(reverse);
-    wait(2, seconds);
-    elev_hook.stop();
-    
-  }
-}*/
 
 // define a task that will handle monitoring inputs from Controller1
 int rc_auto_loop_function_Controller1() {
@@ -94,7 +86,8 @@ int rc_auto_loop_function_Controller1() {
         arms.spin(reverse);
         Controller1LeftShoulderControlMotorsStopped = false;
       } while (!Controller1LeftShoulderControlMotorsStopped) {
-        arms.spinFor(forward, 0.1, degrees);
+        //arms.spinFor(forward, 0.1, degrees);
+        arms.stop(brakeType::hold);
         // arms.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1LeftShoulderControlMotorsStopped = true;
@@ -106,14 +99,13 @@ int rc_auto_loop_function_Controller1() {
         elevator.spin(reverse);
         Controller1RightShoulderControlMotorsStopped = false;
       } while (!Controller1RightShoulderControlMotorsStopped) {
-        elevator.spinFor(forward, 0.1, degrees);
+        //elevator.spinFor(forward, 0.1, degrees);
+        elevator.stop(brakeType::hold);
         // elevator.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1RightShoulderControlMotorsStopped = true;
       }
-      
     }
-    //Controller1.ButtonA.pressed(togl_ehook);
     // wait before repeating the process
     wait(20, msec);
   }
