@@ -76,27 +76,51 @@ void onevent_JoesVizion_0() {
 }
 
 // toggle elev_hook between lock and unlock based on ehook_on
-void togl_ehook(){
+/*void togl_ehook(){
   elev_hook.stop();
-  elev_hook.setVelocity(80, percent);
   if (ehook_on == false){
     ehook_on = true;
-    elev_hook.spinToPosition(150, degrees);
-    elev_hook.spinFor(forward, 0.001, degrees);
-    //elev_hook.setStopping(hold);
-    //elev_hook.stop();
-    //elev_hook.spin(forward);
+    elev_hook.spinFor(forward, 180, degrees);
+    
+    elev_hook.setVelocity(0, percent);
+    //elev_hook.spinFor(300, degrees);
     
   }
   else{
     ehook_on = false;
-    elev_hook.spinToPosition(30, degrees);
+    elev_hook.setVelocity(80, percent);
+    elev_hook.spinFor(reverse, 180, degrees);
+  }
+}*/
+void togl_ehook(){
+  elev_hook.stop();
+  elev_hook.setVelocity(100, percent);
+  if (ehook_on == true){
+    //ehook_on = false;
+    elev_hook.stop(brakeType::coast);
+    elev_hook.spin(reverse);
+    wait(0.4, seconds);
+    //elev_hook.spinFor(forward, 0.001, degrees);
+    //elev_hook.setStopping(hold);
+    
+    elev_hook.setVelocity(0, percent);
+    ehook_on = false;
+    //elev_hook.spin(forward);
+    
+  }
+  else{
+    //ehook_on = true;
+    elev_hook.stop(brakeType::hold);
+    elev_hook.setVelocity(100, percent);
+    elev_hook.spin(forward);
+    wait(0.7, seconds);
+    elev_hook.setVelocity(0, percent);
+    ehook_on = true;
     //elev_hook.setStopping(coast);
-    elev_hook.stop();
+    
     //elev_hook.spin(reverse);
   }
 }
-
 
 
 // toggle arms between positions based on arms_on
@@ -168,8 +192,8 @@ void auton(){
   togl_ehook();
   wait(0.3, seconds);
   Drivetrain.setDriveVelocity(100, percent);
-  Drivetrain.driveFor(reverse, 15, inches);
-  togl_ehook();
+  Drivetrain.driveFor(reverse, 40, inches);
+  /*togl_ehook();
   Drivetrain.turnFor(right, 80, degrees);
   Drivetrain.driveFor(reverse, 24, inches);
   Drivetrain.turnFor(left, 80, degrees);
@@ -177,8 +201,42 @@ void auton(){
   wait(0.3, seconds);
   togl_ehook();
   wait(0.3, seconds);
-  Drivetrain.driveFor(reverse, 25, inches);
+  Drivetrain.driveFor(reverse, 25, inches);*/
 
+}
+
+// winpoint maybe
+void winpoint(){
+  Drivetrain.setDriveVelocity(80, percent);
+  belt.setVelocity(10, percent);
+  // drop donut into goal 1 (change 500)
+  togl_belt();
+  wait(3, seconds);
+  // go backward 3 inches, back away from goal
+  Drivetrain.driveFor(forward, 15, inches);
+}
+
+//win point without conveyor for low side
+void winpointlowside(){
+  //Drivetrain.setDriveVelocity(100, percent);
+  //Drivetrain.driveFor(forward, 6, inches);
+  Drivetrain.setDriveVelocity(25, percent);
+  Drivetrain.driveFor(forward, 3, inches);
+  togl_ehook();
+  wait(0.4, seconds);
+  Drivetrain.driveFor(reverse, 4, inches);
+  togl_ehook();
+}
+//win point without conveyor for high side
+void winpointhighside(){
+  Drivetrain.setDriveVelocity(100, percent);
+  Drivetrain.driveFor(forward, 6, inches);
+  Drivetrain.setDriveVelocity(25, percent);
+  Drivetrain.driveFor(forward, 10, inches);
+  togl_ehook();
+  wait(1, seconds);
+  Drivetrain.driveFor(reverse, 20, inches);
+  togl_ehook();
 }
 
 void controllerinfo(){
@@ -221,27 +279,6 @@ void braininfo(){
     Brain.Screen.setFillColor(blue);
     Brain.Screen.print("ARMS TEMP OK - ");
     Brain.Screen.print(arms.temperature(percent));
-    Brain.Screen.print("%");
-    // Brain.Screen.print(t);
-    
-  }
-  Brain.Screen.newLine();
-  if(elevator.temperature(percent) >= maxtemp){
-    Brain.Screen.setFillColor(red);
-    Brain.Screen.print("ELEVATOR OVERHEAT WARN - ");
-    Brain.Screen.print(elevator.temperature(percent));
-    Brain.Screen.print("%");
-  } else if(elevator.temperature(percent) < maxtemp
-   && elevator.temperature(percent) > maxtemp - 15){
-    Brain.Screen.setFillColor(orange);
-    Brain.Screen.print("ELEVATOR CHECK TEMP - ");
-    Brain.Screen.print(elevator.temperature(percent));
-    Brain.Screen.print("%");
-    
-  } else{
-    Brain.Screen.setFillColor(blue);
-    Brain.Screen.print("ELEVATOR TEMP OK - ");
-    Brain.Screen.print(elevator.temperature(percent));
     Brain.Screen.print("%");
     // Brain.Screen.print(t);
     
@@ -346,8 +383,9 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   Drivetrain.setDriveVelocity(100, percent);
-  elevator.spinFor(reverse, 20, degrees);
-  auton();
+  //elevator.spinFor(reverse, 20, degrees);
+  //auton();
+  winpointhighside();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -363,7 +401,6 @@ void autonomous(void) {
 void drivercontrol(void) {
   // User control code here, inside the loop
   Drivetrain.setDriveVelocity(100, percent);
-  elev_hook.setPosition(0, degrees);
   while (1) {
     
     // This is the main execution loop for the user control program.
@@ -397,9 +434,9 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
+  //winpoint();
   // Prevent main from exiting with an infinite loop.
   while (true) {
     wait(100, msec);
   }
 }
-
