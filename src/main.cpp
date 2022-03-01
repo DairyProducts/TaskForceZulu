@@ -78,6 +78,7 @@ void onevent_JoesVizion_0() {
 // toggle elev_hook between lock and unlock based on ehook_on
 /*void togl_ehook(){
   elev_hook.stop();
+<<<<<<< Updated upstream
   if (ehook_on == false){
     ehook_on = true;
     elev_hook.spinFor(forward, 180, degrees);
@@ -118,6 +119,22 @@ void togl_ehook(){
     ehook_on = true;
     //elev_hook.setStopping(coast);
     
+=======
+  elev_hook.setVelocity(80, percent);
+  if (ehook_on == true){
+    ehook_on = false;
+    elev_hook.stop(brakeType::coast);
+    elev_hook.spin(reverse);
+    wait(0.4, seconds);
+    elev_hook.setVelocity(0, percent);
+    
+  }
+  else{
+    ehook_on = false;
+    elev_hook.spinToPosition(30, degrees);
+    elev_hook.setStopping(coast);
+    elev_hook.stop();
+>>>>>>> Stashed changes
     //elev_hook.spin(reverse);
   }
 }
@@ -184,7 +201,7 @@ void speedup(){
 
 // autonmous
 void auton(){
-  Drivetrain.setDriveVelocity(100, percent);
+  /*Drivetrain.setDriveVelocity(100, percent);
   Drivetrain.driveFor(forward, 46, inches);
   Drivetrain.setDriveVelocity(25, percent);
   Drivetrain.driveFor(forward, 7, inches);
@@ -202,8 +219,11 @@ void auton(){
   togl_ehook();
   wait(0.3, seconds);
   Drivetrain.driveFor(reverse, 25, inches);*/
+<<<<<<< Updated upstream
 
 }
+=======
+>>>>>>> Stashed changes
 
 // winpoint maybe
 void winpoint(){
