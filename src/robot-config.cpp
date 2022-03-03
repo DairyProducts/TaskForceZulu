@@ -10,7 +10,7 @@ brain  Brain;
 // VEXcode device constructors
 controller Controller1 = controller(primary);
 motor elev_hook = motor(PORT1, ratio36_1, false);
-motor belt = motor(PORT5, ratio18_1, false);
+//motor belt = motor(PORT5, ratio18_1, false);
 // TWO 2 motor drivetrain code
 /*motor LeftDriveSmart = motor(PORT2, ratio18_1, false);
 motor RightDriveSmart = motor(PORT12, ratio18_1, true);
@@ -28,7 +28,7 @@ motor armsMotorA = motor(PORT3, ratio18_1, true);
 motor armsMotorB = motor(PORT13, ratio18_1, false);
 motor_group arms = motor_group(armsMotorA, armsMotorB);
 motor elevatorMotorA = motor(PORT9, ratio18_1, true);
-motor elevatorMotorB = motor(PORT14, ratio18_1, false);
+motor elevatorMotorB = motor(PORT14, ratio36_1, false);
 motor_group elevator = motor_group(elevatorMotorA, elevatorMotorB);
 // vision::signature Vision5__REDD = vision::signature (1, 6387, 8119, 7252,-1093, -425, -760,3, 0);
 // vision Vision5 = vision (PORT20, 40, Vision5__REDD);
