@@ -90,7 +90,7 @@ void togl_ehook(){
 
 // toggle arms between positions based on arms_on
 void togl_arms(){
-  arms.setVelocity(75, percent);
+  arms.setVelocity(100, percent);
   if (arms_on == true){
     arms.spinToPosition(520, degrees);
     arms_on = false;
@@ -148,16 +148,16 @@ void togl_elev(){
 }*/
 // autonmous
 void auton(){
+  arms.setVelocity(100, percent);
+  arms.spinToPosition(760, degrees, false);
   Drivetrain.setDriveVelocity(100, percent);
-  Drivetrain.driveFor(forward, 40, inches);
+  Drivetrain.driveFor(reverse, 49, inches);
+  arms.spinToPosition(300, degrees, true);
   Drivetrain.setDriveVelocity(25, percent);
-  Drivetrain.driveFor(forward, 7, inches);
-  wait(0.3, seconds);
-  togl_ehook();
-  wait(0.3, seconds);
-  Drivetrain.driveFor(reverse, 10, inches);
-  //to get center goal
-  Drivetrain.turnFor(right, 90, degrees);
+  Drivetrain.driveFor(reverse, 3, inches);
+  Drivetrain.setDriveVelocity(100, percent);
+  Drivetrain.driveFor(forward, 15, inches);
+  
 }
 
 // winpoint  lowside with conveyor
