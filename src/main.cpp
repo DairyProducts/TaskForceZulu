@@ -37,48 +37,12 @@ bool arms_on = false;
 // elev_on: toggle variable for elevator
 bool elev_on = false;
 //belt_on: toggle variable for belt
-bool belt_on = false;
+//bool belt_on = false;
 double maxtemp = 75.0;
-int whenStarted() {
-  JoesVizion.broadcast();
-  return 0;
-}
-void onevent_JoesVizion_0() {
-  belt.setVelocity(75, percent);
-  
-  Drivetrain.setDriveVelocity(100, percent);
-  arms.spinToPosition(760, degrees);
-  //wait(5, seconds);
-  Drivetrain.driveFor(forward, -20, inches);
-  Vision5.takeSnapshot(Vision5__YELOW);
-  while (!(Vision5.objects[Vision5_objectIndex].height > 100.0 || Vision5.objects[Vision5_objectIndex].centerY > 140.0)) {
-    Vision5.takeSnapshot(Vision5__YELOW);
-    if(Vision5.objects[Vision5_objectIndex].centerX > 120 && Vision5.objects[Vision5_objectIndex].centerX < 160){
-      Drivetrain.setDriveVelocity(50, percent);
-      Drivetrain.driveFor(forward, -3, inches);
-    }
-    else if (Vision5.objects[Vision5_objectIndex].centerX <= 120){
-      Drivetrain.turn(left);
-    }
-    else if(Vision5.objects[Vision5_objectIndex].centerX >= 160){
-      Drivetrain.turn(right);
-    } else{
-      Drivetrain.turn(left);
-    }
-  }
-  Brain.Screen.print("VEXcode");
-  Drivetrain.driveFor(forward, -2, inches);
-  Drivetrain.setDriveVelocity(0, percent);
-  //The conveyor belt stuff
-  arms.spinToPosition(520, degrees);
-  //conveyor.spin(forward);
-  Drivetrain.setDriveVelocity(0, percent);
-}
 
 // toggle elev_hook between lock and unlock based on ehook_on
 /*void togl_ehook(){
   elev_hook.stop();
-<<<<<<< Updated upstream
   if (ehook_on == false){
     ehook_on = true;
     elev_hook.spinFor(forward, 180, degrees);
@@ -119,22 +83,6 @@ void togl_ehook(){
     ehook_on = true;
     //elev_hook.setStopping(coast);
     
-=======
-  elev_hook.setVelocity(80, percent);
-  if (ehook_on == true){
-    ehook_on = false;
-    elev_hook.stop(brakeType::coast);
-    elev_hook.spin(reverse);
-    wait(0.4, seconds);
-    elev_hook.setVelocity(0, percent);
-    
-  }
-  else{
-    ehook_on = false;
-    elev_hook.spinToPosition(30, degrees);
-    elev_hook.setStopping(coast);
-    elev_hook.stop();
->>>>>>> Stashed changes
     //elev_hook.spin(reverse);
   }
 }
@@ -179,7 +127,7 @@ void togl_elev(){
 }
 
 // toggles belt between spinning fore or back based on belt_on
-void togl_belt() {
+/*void togl_belt() {
   if (belt_on){
     belt.stop();
     belt_on = false;
@@ -189,44 +137,31 @@ void togl_belt() {
     belt_on = true;
   }
 
-}
+}*/
 
-void speeddown(){
+/*void speeddown(){
   Drivetrain.setDriveVelocity(75, percent);
-}
+}*/
 
-void speedup(){
+/*void speedup(){
   Drivetrain.setDriveVelocity(100, percent);
-}
-
+}*/
 // autonmous
 void auton(){
-  /*Drivetrain.setDriveVelocity(100, percent);
-  Drivetrain.driveFor(forward, 46, inches);
+  Drivetrain.setDriveVelocity(100, percent);
+  Drivetrain.driveFor(forward, 40, inches);
   Drivetrain.setDriveVelocity(25, percent);
   Drivetrain.driveFor(forward, 7, inches);
   wait(0.3, seconds);
   togl_ehook();
   wait(0.3, seconds);
-  Drivetrain.setDriveVelocity(100, percent);
-  Drivetrain.driveFor(reverse, 40, inches);
-  /*togl_ehook();
-  Drivetrain.turnFor(right, 80, degrees);
-  Drivetrain.driveFor(reverse, 24, inches);
-  Drivetrain.turnFor(left, 80, degrees);
-  Drivetrain.driveFor(forward, 15, inches);
-  wait(0.3, seconds);
-  togl_ehook();
-  wait(0.3, seconds);
-  Drivetrain.driveFor(reverse, 25, inches);*/
-<<<<<<< Updated upstream
-
+  Drivetrain.driveFor(reverse, 10, inches);
+  //to get center goal
+  Drivetrain.turnFor(right, 90, degrees);
 }
-=======
->>>>>>> Stashed changes
 
-// winpoint maybe
-void winpoint(){
+// winpoint  lowside with conveyor
+/*void winpointlowconveyor(){
   Drivetrain.setDriveVelocity(80, percent);
   belt.setVelocity(10, percent);
   // drop donut into goal 1 (change 500)
@@ -234,13 +169,13 @@ void winpoint(){
   wait(3, seconds);
   // go backward 3 inches, back away from goal
   Drivetrain.driveFor(forward, 15, inches);
-}
+}*/
 
 //win point without conveyor for low side
 void winpointlowside(){
   //Drivetrain.setDriveVelocity(100, percent);
   //Drivetrain.driveFor(forward, 6, inches);
-  Drivetrain.setDriveVelocity(25, percent);
+  Drivetrain.setDriveVelocity(10, percent);
   Drivetrain.driveFor(forward, 3, inches);
   togl_ehook();
   wait(0.4, seconds);
@@ -249,13 +184,15 @@ void winpointlowside(){
 }
 //win point without conveyor for high side
 void winpointhighside(){
-  Drivetrain.setDriveVelocity(100, percent);
+  Drivetrain.setDriveVelocity(50, percent);
   Drivetrain.driveFor(forward, 6, inches);
-  Drivetrain.setDriveVelocity(25, percent);
+  Drivetrain.setDriveVelocity(10, percent);
   Drivetrain.driveFor(forward, 10, inches);
   togl_ehook();
   wait(1, seconds);
-  Drivetrain.driveFor(reverse, 20, inches);
+  Drivetrain.setDriveVelocity(60, percent);
+  Drivetrain.driveFor(reverse, 5, inches);
+  Drivetrain.turnFor(left, 60, degrees);
   togl_ehook();
 }
 
@@ -404,8 +341,8 @@ void autonomous(void) {
   // Insert autonomous user code here.
   Drivetrain.setDriveVelocity(100, percent);
   //elevator.spinFor(reverse, 20, degrees);
-  //auton();
-  winpointhighside();
+  auton();
+  //winpointhighside();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -420,7 +357,7 @@ void autonomous(void) {
 
 void drivercontrol(void) {
   // User control code here, inside the loop
-  Drivetrain.setDriveVelocity(100, percent);
+  Drivetrain.setDriveVelocity(80, percent);
   while (1) {
     
     // This is the main execution loop for the user control program.
@@ -432,7 +369,7 @@ void drivercontrol(void) {
     // update your motors, etc.
     // ........................................................................
     Controller1.ButtonX.pressed(togl_arms);
-    Controller1.ButtonY.pressed(togl_belt);
+    //Controller1.ButtonY.pressed(togl_belt);
     Controller1.ButtonA.pressed(togl_ehook);
     braininfo();
     controllerinfo();
@@ -451,10 +388,9 @@ int main() {
   Competition.autonomous(autonomous);
   Competition.drivercontrol(drivercontrol);
   
-
+  //auton();
   // Run the pre-autonomous function.
   pre_auton();
-  //winpoint();
   // Prevent main from exiting with an infinite loop.
   while (true) {
     wait(100, msec);
