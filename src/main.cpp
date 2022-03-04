@@ -149,14 +149,14 @@ void togl_elev(){
 // autonmous
 void auton(){
   arms.setVelocity(100, percent);
-  arms.spinToPosition(760, degrees, false);
+  arms.spinToPosition(710, degrees, false);
   Drivetrain.setDriveVelocity(100, percent);
-  Drivetrain.driveFor(reverse, 49, inches);
-  arms.spinToPosition(300, degrees, true);
-  Drivetrain.setDriveVelocity(25, percent);
-  Drivetrain.driveFor(reverse, 3, inches);
-  Drivetrain.setDriveVelocity(100, percent);
-  Drivetrain.driveFor(forward, 15, inches);
+  Drivetrain.driveFor(reverse, 35, inches);
+  Drivetrain.setDriveVelocity(50, percent);
+  Drivetrain.driveFor(reverse, 10, inches);
+  arms.spinToPosition(450, degrees, true);
+  Drivetrain.setDriveVelocity(45, percent);
+  Drivetrain.driveFor(forward, 20, inches);
   
 }
 
