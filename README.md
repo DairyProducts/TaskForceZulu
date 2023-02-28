@@ -1,5 +1,6 @@
 # TaskForceZulu
 Tim's team!!!!!! We worship the divine deity Tim.
+**This repository has been archived as it has been over a year since the VEX Robotics Competition Tipping Point 2021-22 season ended. Contact Dairy#6166 on Discord if you hvae any questions.**
 
 ## To open in Vexcode Pro
 Use Ctrl + O and select the v5code file.
